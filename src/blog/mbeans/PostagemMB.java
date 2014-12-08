@@ -30,7 +30,7 @@ public class PostagemMB implements Serializable {
 		PostagemDAO postagemDAO = new PostagemDAO();
 		System.out.println("Entrou no metodo salvar");
 		try {
-			Usuario usuario = usuarioMB.getUsuario();
+			Usuario usuario = usuarioMB.getUsuarioB();
 			postagem.setUsuario(usuario);
 			postagemDAO.salvar(postagem);
 			FacesContext context = FacesContext.getCurrentInstance();

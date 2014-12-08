@@ -1,5 +1,7 @@
 package blog.mbeans;
 
+import java.sql.SQLException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -7,19 +9,32 @@ import javax.faces.context.FacesContext;
 
 import blog.dao.UsuarioDAO;
 import blog.entidades.Usuario;
+import blog.exception.ClasseNaoFuncionaException;
 
 @ManagedBean(name="usuario")
 @SessionScoped
 public class UsuarioMB {
 	private String login, senha;
-	private Usuario usuario;        
+	private Usuario usuarioB;
 	private String mensagem;
+
 
 	public UsuarioMB() {
 		super();
+		//usuarioB = null;
 		this.mensagem = "";
-		usuario = null;
+		usuarioB = new Usuario();	
 	}
+	
+	
+	//salva novo usuario
+	public void addUsuario(){	
+		UsuarioDAO ud = new UsuarioDAO(); 
+		if(ud.salvarUsuario(usuarioB)){
+			
+		}	
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -33,16 +48,16 @@ public class UsuarioMB {
 		this.senha = senha;
 	}
 	public boolean isLogado() {
-		return usuario != null;
+		return usuarioB != null;
 	}
 	public boolean isNotLogado() {
-		return usuario == null;
+		return usuarioB == null;
 	}
-	public Usuario getUsuario() {
-		return usuario;
+	public Usuario getUsuarioB() {
+		return usuarioB;
 	}
-	public void setUsuario(Usuario logado) {
-		this.usuario = logado;
+	public void setUsuarioB(Usuario usuarioB) {
+		this.usuarioB = usuarioB;
 	}
 
 	/**
@@ -62,9 +77,9 @@ public class UsuarioMB {
 			 UsuarioDAO dao = new UsuarioDAO();
 			 Usuario usr = dao.autenticar(login, senha);
 			 if (usr != null) {
-				 this.usuario = usr;
+				 this.usuarioB = usr;
 				 FacesContext context = FacesContext.getCurrentInstance();
-				 context.addMessage(null, new FacesMessage("Bem vindo!",  "Sr. "+usuario.getNome()));
+				 context.addMessage(null, new FacesMessage("Bem vindo!",  "Sr. "+usuarioB.getNome()));
 				 return "index.jsf";
 			 } else {
 				 this.mensagem = "Login e senha n‹o correspondem a um usu‡rio v‡lido!";
@@ -80,8 +95,13 @@ public class UsuarioMB {
 	 }
 
 	 public String logout() {
-		 this.usuario = null;
+		 this.usuarioB = null;
 		 return "index.jsf?faces-redirect=true";
 	 }
+	 
+	 
+
+
+	
 
 }

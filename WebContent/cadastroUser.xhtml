@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="templates/modelo.xhtml">
+
+	<ui:define name="content">
+		<hr/>
+		
+		<h:form>
+		<p:growl id="messages" showDetail="true" />
+			<p:panelGrid columns="2">
+				<f:facet name="header">
+					<h:outputText value="Faça seu cadastro" />
+				</f:facet>
+			
+				<h:outputLabel for="nome" value="Nome:" />
+				
+				<p:inputText id="nome" value="#{usuario.usuarioB.nome}" label="Nome" required="true" />
+					
+
+				<h:outputLabel for="login" value="Login: " />
+				<p:inputText id="login" value="#{usuario.usuarioB.login}" label="login"
+					required="true" />
+					
+				<h:outputLabel for="senha" value="Senha: " />
+				<p:password id="senha" value="#{usuario.usuarioB.senha}" label="senha" required="true" />
+					
+
+			</p:panelGrid>
+			
+			<p:commandButton value="Efetue Login" id="botao1"
+				action="#{usuario.addUsuario}" ajax="false" style="display: block;"/>
+		</h:form>
+		
+		<hr/>
+	</ui:define>
+</ui:composition>
+</html>

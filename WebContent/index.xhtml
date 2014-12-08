@@ -16,11 +16,11 @@
 		
 		<hr />
 		
-		<h:outputText value="Usuário: #{usuario.usuario.nome}"
-			rendered="#{usuario.logado}"></h:outputText>
+		<h:outputText value="Usuário: #{usuario.usuarioB.nome}"
+			rendered="#{usuarioB.logado}"></h:outputText>
 		<h:form>
-			<h:commandLink value="Logout" action="#{usuario.logout}"
-				rendered="#{usuario.logado}"></h:commandLink>
+			<h:commandLink value="Logout" action="#{usuarioB.logout}"
+				rendered="#{usuarioB.logado}"></h:commandLink>
 		</h:form>
 
 		<hr />
@@ -33,7 +33,7 @@
             Postagens da disciplina de Desenvolvimento Web
         </f:facet>
 
-				<p:panel header="#{postagem.usuario.nome}" style="text-align:center">
+				<p:panel header="#{postagem.usuarioB.nome}" style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
 						<p:graphicImage name="images/avatar.png" />
 

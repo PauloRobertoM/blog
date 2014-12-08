@@ -7,13 +7,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import blog.entidades.Usuario;
+import blog.exception.ClasseNaoFuncionaException;
 
 public class UsuarioDAO {
 	private Connection con;  
 	private Statement comando;
 
+	private FabricaConexao conexao;
+	
 	public UsuarioDAO() {
-		super();
+		conexao = new FabricaConexao();
+		
 	}
 
 	private void conectar() {
@@ -21,6 +25,7 @@ public class UsuarioDAO {
 			try {  
 				con = FabricaConexao.getConexao();  
 				comando = con.createStatement();  
+				con.setAutoCommit(false);
 				System.out.println("Conectado!");  
 			} catch (ClassNotFoundException e) {  
 				imprimeErro("Erro ao carregar o driver", e.getMessage());  
@@ -29,6 +34,30 @@ public class UsuarioDAO {
 			}  
 		}
 	} 
+	
+	public boolean salvarUsuario(Usuario usuario){
+		conectar();
+        try {
+            String sql = "INSERT INTO USUARIO(NOME,LOGIN,SENHA)"
+                    +"VALUES(?,?,?)";
+            
+            PreparedStatement stm = conexao.getConnection().prepareStatement(sql);
+            stm.setString(1,usuario.getNome());
+            stm.setString(2,usuario.getLogin());
+            stm.setString(3,usuario.getSenha());
+            
+            stm.execute();
+            conexao.getConnection().commit();
+        
+            return true;
+            
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
 
 	public void fechar() {  
 		try {  
@@ -67,4 +96,7 @@ public class UsuarioDAO {
 		}
 		return usr;
 	} 
+	
+	
+
 }

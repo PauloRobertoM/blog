@@ -10,12 +10,13 @@ public class FabricaConexao {
         private static String URL;
         private static String NOME;
         private static String SENHA;
+        private Connection con;
         
         public static void bancoLocal(){
         	MySQLDriver = "com.mysql.jdbc.Driver";
-        	URL = "jdbc:mysql://localhost/dsweb_blog";
+        	URL = "jdbc:mysql://localhost:3306/dsweb_blog";
         	NOME = "root";
-        	SENHA = "ninocafe";
+        	SENHA = "admin";
         }
         
         public static void bancoRemoto(){
@@ -30,4 +31,17 @@ public class FabricaConexao {
                 Class.forName(MySQLDriver);
                 return DriverManager.getConnection(URL, NOME, SENHA);  
         }  
+        
+        public Connection getConnection(){
+            if(con==null){
+                try {
+                    con = DriverManager.getConnection(URL,NOME,SENHA);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            return con;
+        }
+        
 }  
