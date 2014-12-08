@@ -18,7 +18,7 @@ public class UsuarioMB {
 	public UsuarioMB() {
 		super();
 		this.mensagem = "";
-		this.usuario = null;
+		usuario = null;
 	}
 	public String getLogin() {
 		return login;
