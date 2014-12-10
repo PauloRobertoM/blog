@@ -1,5 +1,6 @@
 package blog.mbeans;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 
 import javax.faces.application.FacesMessage;
@@ -9,53 +10,52 @@ import javax.faces.context.FacesContext;
 
 import blog.dao.UsuarioDAO;
 import blog.entidades.Usuario;
-import blog.exception.ClasseNaoFuncionaException;
 
 @ManagedBean(name="usuario")
 @SessionScoped
-public class UsuarioMB {
+public class UsuarioMB implements Serializable{
+	
+	private static final long serialVersionUID = -5373860882051675639L;
 	private String login, senha;
 	private Usuario usuarioB;
 	private String mensagem;
-
+	private boolean logado;
 
 	public UsuarioMB() {
 		super();
-		//usuarioB = null;
 		this.mensagem = "";
-		usuarioB = new Usuario();	
-	}
-	
-	
-	//salva novo usuario
-	public void addUsuario(){	
-		UsuarioDAO ud = new UsuarioDAO(); 
-		if(ud.salvarUsuario(usuarioB)){
-			
-		}	
+		this.usuarioB = new Usuario();
+		this.logado = false;
 	}
 	
 	public String getLogin() {
 		return login;
 	}
+	
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
 	public String getSenha() {
 		return senha;
 	}
+	
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
 	public boolean isLogado() {
-		return usuarioB != null;
+		return logado;
 	}
+	
 	public boolean isNotLogado() {
-		return usuarioB == null;
+		return logado;
 	}
+	
 	public Usuario getUsuarioB() {
 		return usuarioB;
 	}
+	
 	public void setUsuarioB(Usuario usuarioB) {
 		this.usuarioB = usuarioB;
 	}
@@ -72,6 +72,26 @@ public class UsuarioMB {
 	 public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
 	 }
+	 
+	//salva novo usuario
+		public String addUsuario(){
+			
+			UsuarioDAO ud = new UsuarioDAO(); 
+			try {
+				ud.salvarUsuario(usuarioB);
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Sucesso!", "Usu‡rio Salvo."));
+				this.login = this.usuarioB.getLogin();
+				this.senha = this.usuarioB.getSenha();
+				this.autentica();
+				return "index.jsf";
+			} catch (SQLException e) {
+				FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage("Erro!", e.getMessage()));
+				return null;
+			}
+		}
+		
 	 public String autentica() {
 		 if (login!=null && !login.isEmpty() && senha!=null && !senha.isEmpty()) {
 			 UsuarioDAO dao = new UsuarioDAO();
@@ -80,6 +100,7 @@ public class UsuarioMB {
 				 this.usuarioB = usr;
 				 FacesContext context = FacesContext.getCurrentInstance();
 				 context.addMessage(null, new FacesMessage("Bem vindo!",  "Sr. "+usuarioB.getNome()));
+				 this.logado = true;
 				 return "index.jsf";
 			 } else {
 				 this.mensagem = "Login e senha n‹o correspondem a um usu‡rio v‡lido!";
@@ -96,12 +117,10 @@ public class UsuarioMB {
 
 	 public String logout() {
 		 this.usuarioB = null;
+		 this.logado = false;
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 context.addMessage(null, new FacesMessage("Sucesso!",  "Usu‡rio desconectado !!! "));
 		 return "index.jsf?faces-redirect=true";
 	 }
 	 
-	 
-
-
-	
-
 }

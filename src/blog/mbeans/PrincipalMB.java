@@ -1,5 +1,6 @@
 package blog.mbeans;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import blog.exception.ClasseNaoFuncionaException;
 
 @ManagedBean(name="principal")
 @ViewScoped
-public class PrincipalMB {
+public class PrincipalMB implements Serializable {
+	
+	private static final long serialVersionUID = 2181515008338707375L;
 	private List<Postagem> postagens;
 	PostagemDAO dao;
 	Postagem selectPostagem;

@@ -31,7 +31,7 @@
 
 			</p:panelGrid>
 			<h:outputText value="Não possui conta: " />
-				<h:commandLink value="Cadastre-se." url="cadastrarUsuario.jsf"></h:commandLink>
+				<h:commandLink value="Cadastre-se." action="cadastroUser" immediate="true"></h:commandLink>
 			<p:commandButton value="Efetue Login" id="botao1"
 				action="#{usuario.autentica}" ajax="false" style="display: block;"/>
 		</h:form>

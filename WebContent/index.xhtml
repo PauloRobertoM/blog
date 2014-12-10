@@ -1,86 +1,100 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+			"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Blog da Disciplina DSWeb</title>
-</h:head>
-<ui:composition template="templates/modelo.xhtml">
 
-	<ui:define name="content">
-	
-		<p:growl id="growl" showDetail="true" sticky="true" />
-		
-		<hr />
-		
-		<h:outputText value="UsuÃ¡rio: #{usuario.usuarioB.nome}"
-			rendered="#{usuarioB.logado}"></h:outputText>
-		<h:form>
-			<h:commandLink value="Logout" action="#{usuarioB.logout}"
-				rendered="#{usuarioB.logado}"></h:commandLink>
-		</h:form>
+<f:view encoding="ISO-8859-1">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Blog da Disciplina DSWeb</title>
+	</h:head>
+	<ui:composition template="templates/modelo.xhtml">
 
-		<hr />
+		<ui:define name="content">
+
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			
+			<hr />
+			<h:form id="formLogout" rendered="#{usuario.logado}">
+
+				<h:outputText value="Usuário: #{usuario.usuarioB.nome} |"
+					rendered="#{usuario.logado}"></h:outputText>
+				<h:commandLink value="Efetuar Logout" action="#{usuario.logout}"></h:commandLink>
+				<hr />
+
+			</h:form>
+			
+
+			<hr />
 			<h:form id="form">
-			<p:dataGrid var="postagem" value="#{principal.postagens}" columns="3"
-				layout="grid" rows="12" id="cars"
-				rowsPerPageTemplate="6,12,16">
+				<p:dataGrid var="postagem" value="#{principal.postagens}"
+					columns="3" layout="grid" rows="12" id="cars"
+					rowsPerPageTemplate="6,12,16">
 
-				<f:facet name="header">
-            Postagens da disciplina de Desenvolvimento Web
-        </f:facet>
+					<f:facet name="header">
+            			Postagens da disciplina de Desenvolvimento Web
+        			</f:facet>
 
-				<p:panel header="#{postagem.usuarioB.nome}" style="text-align:center">
-					<h:panelGrid columns="1" style="width:100%">
-						<p:graphicImage name="images/avatar.png" />
+					<p:panel header="#{postagem.usuario.nome}"
+						style="text-align:center">
+						<h:panelGrid columns="1" style="width:100%">
+							<p:graphicImage name="images/avatar.png" />
 
-						<h:outputText value="#{postagem.titulo}" />
+							<h:outputText value="#{postagem.titulo}" />
 
-						<p:commandLink 
-							
-							update=":form:postDetail"
-							oncomplete="PF('postDialog').show()" title="Mais detalhes">
-							<f:setPropertyActionListener value="#{postagem}" target="#{principal.selectPostagem}" />
-							<h:outputText styleClass="ui-icon ui-icon-search"
-								style="margin:0 auto;" />
-							
-						</p:commandLink>
-					</h:panelGrid>
-				</p:panel>
+							<p:commandLink update=":form:postDetail"
+								oncomplete="PF('postDialog').show()" title="Mais detalhes">
+								<f:setPropertyActionListener value="#{postagem}"
+									target="#{principal.selectPostagem}" />
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
 
-			</p:dataGrid>
+							</p:commandLink>
+						</h:panelGrid>
+					</p:panel>
 
-			<p:dialog header="Detalhe" widgetVar="postDialog" modal="true"
-				showEffect="fade" hideEffect="fade" resizable="false">
-				<p:outputPanel id="postDetail" style="text-align:center;">
-					<p:panelGrid columns="2"
-						columnClasses="label,value">
-						<f:facet name="header">
-							<h:outputText value="Dados" />
-						</f:facet>
+				</p:dataGrid>
 
-						<h:outputText value="Id:" />
-						<h:outputText value="#{principal.selectPostagem.id}" />
+				<p:dialog 
+					header="Postagem" 
+					widgetVar="postDialog" 
+					modal="true"
+					showEffect="fade" 
+					hideEffect="fade" 
+					resizable="false">
+					
+					<p:outputPanel 
+						id="postDetail" 
+						style="text-align:center; width:600px;">
 						
-						<h:outputText value="Titulo:" />
-						<h:outputText value="#{principal.selectPostagem.titulo}" />
+						<h:outputText 
+							value="#{principal.selectPostagem.titulo}" 
+							style="display:block; color:silver; margin-bottom: 10px;" />
+						
+						<h:outputText 
+							value="#{principal.selectPostagem.texto}" 
+							style="display:block; color: black; margin-bottom: 10px;" />
+						
+						<h:outputText 
+							value="Data de publicação: #{principal.selectPostagem.data}." />
+							
+						<hr/>
+						<h:outputLabel for="Comentario"></h:outputLabel>
+						<p:inputTextarea id="comentario" />
+						<p:commandLink value="Comentar"></p:commandLink>
+						
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+			<hr />
+		</ui:define>
 
-						<h:outputText value="Texto:" />
-						<h:outputText value="#{principal.selectPostagem.texto}" />
+	</ui:composition>
 
-						<h:outputText value="Data de publicaÃ§Ã£o:" />
-						<h:outputText value="#{principal.selectPostagem.data}" />
-
-					</p:panelGrid>
-				</p:outputPanel>
-			</p:dialog>
-		</h:form>
-		<hr />
-	</ui:define>
-
-</ui:composition>
+</f:view>
 
 </html>

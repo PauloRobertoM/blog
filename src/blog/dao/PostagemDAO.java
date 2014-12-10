@@ -62,12 +62,17 @@ public class PostagemDAO {
 			java.util.Date data = new java.util.Date();
 			stmt.setDate(3, new Date(data.getTime()));
 			stmt.setInt(4,postagem.getUsuario().getId());
+			
+			System.out.println(postagem.getUsuario().getId());
+			System.out.println(postagem.getUsuario().getNome());
+			System.out.println(postagem.getUsuario().getLogin());
 
 			stmt.execute();
 			stmt.close();
 
 		}
 		catch(SQLException e){
+			System.out.println(e.getMessage());
 			throw new SQLException(e.getMessage());
 		}
 

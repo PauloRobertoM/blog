@@ -16,7 +16,7 @@ public class FabricaConexao {
         	MySQLDriver = "com.mysql.jdbc.Driver";
         	URL = "jdbc:mysql://localhost:3306/dsweb_blog";
         	NOME = "root";
-        	SENHA = "admin";
+        	SENHA = "ninocafe";
         }
         
         public static void bancoRemoto(){

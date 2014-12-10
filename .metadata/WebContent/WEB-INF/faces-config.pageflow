@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14181970952790" configfile="/blog/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="formLogin.xhtml" x="292" y="192" id="pf14181985276257" outlinks="pf14181985276258" path="/formLogin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastroUser.xhtml" x="493" y="150" id="pf14181985276259" inlinks="pf14181985276258" path="/cadastroUser.xhtml"/>
+  <links id="pf14181985276258" target="pf14181985276259" source="pf14181985276257" outcome="cadastroUser"/>
+</pageflow:Pageflow>

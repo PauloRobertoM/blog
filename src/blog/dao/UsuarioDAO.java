@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import blog.entidades.Usuario;
-import blog.exception.ClasseNaoFuncionaException;
 
 public class UsuarioDAO {
 	private Connection con;  
@@ -35,7 +34,7 @@ public class UsuarioDAO {
 		}
 	} 
 	
-	public boolean salvarUsuario(Usuario usuario){
+	public void salvarUsuario(Usuario usuario) throws SQLException{
 		conectar();
         try {
             String sql = "INSERT INTO USUARIO(NOME,LOGIN,SENHA)"
@@ -47,16 +46,11 @@ public class UsuarioDAO {
             stm.setString(3,usuario.getSenha());
             
             stm.execute();
-            conexao.getConnection().commit();
-        
-            return true;
+			stm.close();
             
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	throw new SQLException(e.getMessage());
         }
-        
-        return false;
     }
 
 	public void fechar() {  

@@ -3,7 +3,6 @@ package blog.mbeans;
 import java.io.Serializable;
 import java.sql.SQLException;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
