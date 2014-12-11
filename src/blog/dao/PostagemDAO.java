@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import blog.entidades.Comentario;
 import blog.entidades.Postagem;
 import blog.exception.*;
 
@@ -119,5 +120,7 @@ public class PostagemDAO {
 		} catch (SQLException e) {
 			throw new SQLException(e.getMessage()); 
 		}
-	} 
+	}
+
+
 }

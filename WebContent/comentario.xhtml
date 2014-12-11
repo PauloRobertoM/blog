@@ -9,33 +9,28 @@
 	<title>Blog da Disciplina DSWeb</title>
 </h:head>
 <ui:composition template="templates/modelo.xhtml">
+
 	<ui:define name="content">
-
-		<hr />
+		<hr/>
+		
 		<h:form>
-			<p:growl id="messages" showDetail="true" />
-			<p:panelGrid columns="2">
-				<f:facet name="header">
-					<h:outputText value="Inserir Postagem" />
-				</f:facet>
-
-				<h:outputLabel for="titulo" value="Titulo:" />
-				<p:inputText id="titulo" value="#{post.postagem.titulo}"
-					label="Titulo" required="true" />
-				
-				<h:outputLabel for="texto" value="Texto:" />
+		<p:growl id="messages" showDetail="true" />
+		<h:outputText value="Inserir Comentário" /><br/>
+		<p:panelGrid columns="2">
+				<h:outputLabel value="Texto:" />
 				<p:inputTextarea rows="5" cols="50" counter="display"
-					value="#{post.postagem.texto}" maxlength="255"
+					value="#{coment.comentario.texto}" maxlength="255"
 					counterTemplate="{0} caracteres restantes." autoResize="false"
 					required="true" id="texto" label="Texto"/>
 
 			</p:panelGrid>
 			<h:outputText id="display" />
-			<p:commandButton value="Inserir" id="botao2" action="#{post.salvar}"
+			<p:commandButton value="Comentar" id="botao3" action="#{coment.salvar}"
 				style="display:block;" ajax="false"></p:commandButton>
-
+		
 		</h:form>
-		<hr />
+		
+		<hr/>
 	</ui:define>
 </ui:composition>
 

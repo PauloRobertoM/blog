@@ -4,6 +4,7 @@
 package blog.entidades;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author willenrodrigodeleiros
@@ -15,7 +16,8 @@ public class Postagem {
 	private String texto;
 	private Date data;
 	private Usuario usuario;
-	
+	private List<Comentario> comentarios;
+
 	public Postagem(){
 		usuario = new Usuario();
 	}
@@ -88,6 +90,14 @@ public class Postagem {
 	 */
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
+	}
+	
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
 	}
 	
 }

@@ -1,7 +1,5 @@
 package blog.mbeans;
 
-import java.sql.SQLException;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -9,7 +7,6 @@ import javax.faces.context.FacesContext;
 
 import blog.dao.UsuarioDAO;
 import blog.entidades.Usuario;
-import blog.exception.ClasseNaoFuncionaException;
 
 @ManagedBean(name="usuario")
 @SessionScoped
