@@ -1,37 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Blog da Disciplina DSWeb</title>
-</h:head>
-<ui:composition template="templates/modelo.xhtml">
 
-	<ui:define name="content">
-		<hr/>
-		
-		<h:form>
-		<p:growl id="messages" showDetail="true" />
-		<h:outputText value="Inserir Comentário" /><br/>
-		<p:panelGrid columns="2">
-				<h:outputLabel value="Texto:" />
-				<p:inputTextarea rows="5" cols="50" counter="display"
-					value="#{coment.comentario.texto}" maxlength="255"
-					counterTemplate="{0} caracteres restantes." autoResize="false"
-					required="true" id="texto" label="Texto"/>
+<f:view encoding="ISO-8859-1">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Blog da Disciplina DSWeb</title>
+	</h:head>
+	<ui:composition template="templates/modelo.xhtml">
 
-			</p:panelGrid>
-			<h:outputText id="display" />
-			<p:commandButton value="Comentar" id="botao3" action="#{coment.salvar}"
-				style="display:block;" ajax="false"></p:commandButton>
-		
-		</h:form>
-		
-		<hr/>
-	</ui:define>
-</ui:composition>
+		<ui:define name="content">
+			<p:growl id="growl" showDetail="true" sticky="true" />
 
+			<hr />
+			<h:form id="formLogout" rendered="#{usuario.logado}">
+
+				<h:outputText value="Usu&aacute;rio: #{usuario.usuarioB.nome} |"
+					rendered="#{usuario.logado}"></h:outputText>
+				<h:commandLink value="Efetuar Logout" action="#{usuario.logout}"></h:commandLink>
+				<hr />
+			</h:form>
+			
+			<h:form id="formNovoComentario">
+				
+				<p:panelGrid columns="2">
+					<f:facet name="header">
+						<h:outputText value="Inserir Coment&aacute;rio" />
+					</f:facet>
+
+					<h:outputLabel for="autor" value="Autor:" />
+					<p:inputText id="autor" value="#{coment.comentario.autor}"
+						label="Autor" placeholder="M&aacute;ximo 30 caracteres" maxlength="30"
+						style="width:415px;" required="true" />
+
+					<h:outputLabel for="texto" value="Texto:" />
+					<p:inputTextarea id="texto" value="#{coment.comentario.texto}"
+						placeholder="M&aacute;ximo 255 caracteres" label="Texto" rows="5"
+						cols="50" counter="display" maxlength="255"
+						counterTemplate="{0} caracteres restantes." autoResize="false"
+						required="true" />
+
+				</p:panelGrid>
+				<h:inputHidden value="#{coment.postagem_id}" />
+				<h:outputText id="display" />
+				<p:commandButton value="Comentar" id="botao3" action="#{coment.salvar}"
+					style="display:block;" ajax="false"></p:commandButton>
+
+			</h:form>
+
+			<hr />
+		</ui:define>
+	</ui:composition>
+</f:view>
 </html>

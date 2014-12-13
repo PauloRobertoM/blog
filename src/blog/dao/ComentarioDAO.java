@@ -51,16 +51,17 @@ public class ComentarioDAO {
 		System.err.println(msg);  
 		System.out.println(msgErro);  
 	} 
-	
+
 	public void salvar(Comentario comentario) throws ClasseNaoFuncionaException, SQLException{
 		conectar();
 		try{
-			String sql = "INSERT INTO Comentario (`texto`, `postagem_id`)" + "  VALUES (?,?)";
+			String sql = "INSERT INTO Comentario (autor, texto, Postagem_id)" + "  VALUES (?,?,?)";
 
 			PreparedStatement stmt = (PreparedStatement) con.prepareStatement(sql);
-		
-			stmt.setString(1, comentario.getTexto());
-			stmt.setInt(2, comentario.getPostagem().getId());
+
+			stmt.setString(1, comentario.getAutor());
+			stmt.setString(2, comentario.getTexto());
+			stmt.setInt(3, comentario.getPostagem_id());
 
 			stmt.execute();
 			stmt.close();
@@ -72,23 +73,21 @@ public class ComentarioDAO {
 
 	}
 
-	public List<Comentario> buscarComentarios() throws SQLException, ClasseNaoFuncionaException {
+	public List<Comentario> buscarComentarios(Postagem postagem) 
+			throws ClasseNaoFuncionaException, SQLException{
 		conectar();
 		ResultSet rs;  
-		try { 
-			String sql = "select a.id as id_user, b.id as id_coment, b.texto, b.Postagem_id from Postagem a inner join Comentario b on  a.id = b.Postagem_id";
-			rs = comando.executeQuery(sql);
-			List<Comentario> comentarios= new ArrayList<Comentario>();
+		try {  
+			rs = comando.executeQuery("SELECT * FROM Comentario where Postagem_id = "+postagem.getId());
+			List<Comentario> comentarios = new ArrayList<Comentario>();
 			while (rs.next()) {  
-				// pega todos os atributos da postagem
+				// pega todos os atributos os comentarios
 				Comentario c = new Comentario();
-				c.getPostagem().setId(rs.getInt("id_post"));
-				c.setId(rs.getInt("id_coment"));
+				c.setId(rs.getInt("id"));
+				c.setAutor(rs.getString("autor"));
 				c.setTexto(rs.getString("texto"));
+				c.setPostagem_id(rs.getInt("Postagem_id"));
 				comentarios.add(c);  
-				System.out.println(c.getId());
-				System.out.println(c.getTexto());
-				System.out.println(c.getPostagem().getId());
 			}
 			return comentarios;
 		} catch (SQLException e) {

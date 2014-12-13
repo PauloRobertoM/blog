@@ -5,13 +5,11 @@ import java.sql.SQLException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
 import blog.dao.ComentarioDAO;
 import blog.entidades.Comentario;
-import blog.entidades.Postagem;
 import blog.exception.ClasseNaoFuncionaException;
 
 @ManagedBean(name="coment")
@@ -22,21 +20,14 @@ public class ComentarioMB implements Serializable{
 
 	private Comentario comentario = new Comentario();
 
-	@ManagedProperty(value = "#{post}")
-	private PostagemMB postagemMB = new PostagemMB();
-
+	int postagem_id;
 
 	public String salvar(){
 
 		ComentarioDAO comentarioDAO = new ComentarioDAO();
 		System.out.println("Entrou no metodo salvar");
 		try {
-			Postagem postagem = postagemMB.getPostagem();
-			
-			System.out.println("texto = " + comentario.getTexto());
-			System.out.println("post = " + postagem.getId());
-			
-			comentario.setPostagem(postagem);
+			this.comentario.setPostagem_id(postagem_id);
 			comentarioDAO.salvar(comentario);
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage("Sucesso!", "Comentario Salvo."));
@@ -68,14 +59,15 @@ public class ComentarioMB implements Serializable{
 	}
 
 
-	public PostagemMB getPostagemMB() {
-		return postagemMB;
+	public int getPostagem_id() {
+		return postagem_id;
 	}
 
 
-	public void setPostagemMB(PostagemMB postagemMB) {
-		this.postagemMB = postagemMB;
+	public void setPostagem_id(int postagem_id) {
+		this.postagem_id = postagem_id;
 	}
+
 	
 
 

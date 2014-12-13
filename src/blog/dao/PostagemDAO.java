@@ -1,12 +1,17 @@
 package blog.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import blog.entidades.Comentario;
 import blog.entidades.Postagem;
-import blog.exception.*;
+import blog.entidades.Usuario;
+import blog.exception.ClasseNaoFuncionaException;
 
 public class PostagemDAO {
 	private Connection con;  
@@ -74,25 +79,28 @@ public class PostagemDAO {
 
 	}
 
-	public List<Postagem> buscarTodos() throws ClasseNaoFuncionaException, SQLException {  
+	public List<Postagem> listarPostagens(Usuario usuario) throws ClasseNaoFuncionaException, SQLException {  
 		conectar();
 		ResultSet rs;  
 		try {  
-			rs = comando.executeQuery("SELECT * FROM Postagem");
+			rs = comando.executeQuery("SELECT * FROM Postagem where Usuario_id = "+usuario.getId());
 			List<Postagem> postagens = new ArrayList<Postagem>();
 			while (rs.next()) {  
 				// pega todos os atributos da postagem
 				Postagem p = new Postagem();
 				p.setId(rs.getInt("id"));
+				p.setTitulo(rs.getString("titulo"));
 				p.setTexto(rs.getString("texto"));
 				p.setData(rs.getDate("data"));
+				ComentarioDAO comentarioDAO = new ComentarioDAO();
+				p.setComentarios(comentarioDAO.buscarComentarios(p));
 				postagens.add(p);  
 			}
 			return postagens;
 		} catch (SQLException e) {
 			throw new SQLException(e.getMessage()); 
 		}
-	} 
+	}
 	
 	public List<Postagem> buscarTodosUsuarioPostagem() throws ClasseNaoFuncionaException, SQLException {  
 		conectar();
@@ -110,6 +118,44 @@ public class PostagemDAO {
 				p.setTitulo(rs.getString("titulo"));
 				p.setTexto(rs.getString("texto"));
 				p.setData(rs.getDate("data"));
+				ComentarioDAO comentarioDAO = new ComentarioDAO();
+				p.setComentarios(comentarioDAO.buscarComentarios(p));
+				postagens.add(p);  
+				System.out.println(p.getId());
+				System.out.println(p.getTexto());
+				System.out.println(p.getData());
+				System.out.println(p.getUsuario().getNome());
+				//System.out.println("Comentarios:");
+				//System.out.println(p.getComentarios().get(1).getAutor());
+			}
+			return postagens;
+		} catch (SQLException e) {
+			throw new SQLException(e.getMessage()); 
+		}
+	} 
+	
+	public List<Postagem> buscarTodosUsuarioPostagemCometarios() 
+						throws ClasseNaoFuncionaException, SQLException {  
+		conectar();
+		ResultSet rs;  
+		try { 
+			String sql = "select a.id as id_user, a.nome, b.id as id_post, b.texto as texto_postagem, "
+					+ "b.data, c.id as id_comentario, c.autor, c.texto as texto_comentario from "
+					+ "Usuario a inner join Postagem b on a.id = b.Usuario_id "
+					+ "left join Comentario c on b.id = c.Postagem_id";
+			rs = comando.executeQuery(sql);
+			List<Postagem> postagens = new ArrayList<Postagem>();
+			while (rs.next()) {  
+				// pega todos os atributos da postagem
+				Postagem p = new Postagem();
+				p.getUsuario().setId(rs.getInt("id_user"));
+				p.getUsuario().setNome(rs.getString("nome"));
+				p.setId(rs.getInt("id_post"));
+				p.setTitulo(rs.getString("titulo"));
+				p.setTexto(rs.getString("texto"));
+				p.setData(rs.getDate("data"));
+				
+				//p.setComentarios(comentarios);
 				postagens.add(p);  
 				System.out.println(p.getId());
 				System.out.println(p.getTexto());
@@ -120,7 +166,7 @@ public class PostagemDAO {
 		} catch (SQLException e) {
 			throw new SQLException(e.getMessage()); 
 		}
-	}
+	} 
 
 
 }

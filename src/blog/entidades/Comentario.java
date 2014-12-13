@@ -4,11 +4,9 @@ package blog.entidades;
 public class Comentario {
 	private int id;
 	private String texto;
-	private Postagem postagem;
-	
-	public Comentario(){
-		postagem = new Postagem();
-	}
+	private String autor;
+	private int postagem_id;
+
 	
 	public int getId() {
 		return id;
@@ -22,12 +20,19 @@ public class Comentario {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-	public Postagem getPostagem() {
-		return postagem;
+	public String getAutor() {
+		return autor;
 	}
-	public void setPostagem(Postagem postagem) {
-		this.postagem = postagem;
+	public void setAutor(String autor) {
+		this.autor = autor;
 	}
+	public int getPostagem_id() {
+		return postagem_id;
+	}
+	public void setPostagem_id(int postagem_id) {
+		this.postagem_id = postagem_id;
+	}
+
 	
 	
 }

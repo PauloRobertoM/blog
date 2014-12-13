@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import blog.entidades.Usuario;
-import blog.exception.ClasseNaoFuncionaException;
 
 public class UsuarioDAO {
 	private Connection con;  
